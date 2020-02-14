@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
   Route,
   Link,
   Redirect,
   withRouter
-} from "react-router-dom";
+} from 'react-router-dom'
 
 const Menu = () => {
   const padding = {
     paddingRight: 5
-  };
+  }
   return (
     <div>
       <Link style={padding} to='/'>
@@ -23,8 +23,8 @@ const Menu = () => {
         about
       </Link>
     </div>
-  );
-};
+  )
+}
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
@@ -37,10 +37,10 @@ const AnecdoteList = ({ anecdotes }) => (
       ))}
     </ul>
   </div>
-);
+)
 
 const Anecdote = ({ anecdote }) => {
-  console.log(anecdote);
+  console.log(anecdote)
   return (
     <div>
       <h1>
@@ -51,8 +51,8 @@ const Anecdote = ({ anecdote }) => {
         for more info see <a href={anecdote.info}>{anecdote.info}</a>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const About = () => (
   <div>
@@ -74,41 +74,46 @@ const About = () => (
       find the best and add more.
     </p>
   </div>
-);
+)
 
 const Footer = () => (
   <div>
-    Anecdote app for{" "}
+    Anecdote app for{' '}
     <a href='https://courses.helsinki.fi/fi/tkt21009'>
       Full Stack -sovelluskehitys
     </a>
-    . See{" "}
+    . See{' '}
     <a href='https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js'>
       https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js
-    </a>{" "}
+    </a>{' '}
     for the source code.
   </div>
-);
+)
 
-const CreateNew = props => {
-  const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
-  const [info, setInfo] = useState("");
+let CreateNew = props => {
+  const [content, setContent] = useState('')
+  const [author, setAuthor] = useState('')
+  const [info, setInfo] = useState('')
 
   const handleSubmit = e => {
-    e.preventDefault();
     props.addNew({
       content,
       author,
       info,
       votes: 0
-    });
-  };
+    })
+  }
+
+  const onSubmit = e => {
+    e.preventDefault()
+    handleSubmit()
+    props.history.push('/')
+  }
 
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <div>
           content
           <input
@@ -136,46 +141,48 @@ const CreateNew = props => {
         <button>create</button>
       </form>
     </div>
-  );
-};
+  )
+}
+
+CreateNew = withRouter(CreateNew)
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
-      content: "If it hurts, do it more often",
-      author: "Jez Humble",
-      info: "https://martinfowler.com/bliki/FrequencyReducesDifficulty.html",
+      content: 'If it hurts, do it more often',
+      author: 'Jez Humble',
+      info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
-      id: "1"
+      id: '1'
     },
     {
-      content: "Premature optimization is the root of all evil",
-      author: "Donald Knuth",
-      info: "http://wiki.c2.com/?PrematureOptimization",
+      content: 'Premature optimization is the root of all evil',
+      author: 'Donald Knuth',
+      info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
-      id: "2"
+      id: '2'
     }
-  ]);
+  ])
 
-  const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState('')
 
   const addNew = anecdote => {
-    anecdote.id = (Math.random() * 10000).toFixed(0);
-    setAnecdotes(anecdotes.concat(anecdote));
-  };
+    anecdote.id = (Math.random() * 10000).toFixed(0)
+    setAnecdotes(anecdotes.concat(anecdote))
+  }
 
-  const anecdoteById = id => anecdotes.find(a => a.id === id);
+  const anecdoteById = id => anecdotes.find(a => a.id === id)
 
   const vote = id => {
-    const anecdote = anecdoteById(id);
+    const anecdote = anecdoteById(id)
 
     const voted = {
       ...anecdote,
       votes: anecdote.votes + 1
-    };
+    }
 
-    setAnecdotes(anecdotes.map(a => (a.id === id ? voted : a)));
-  };
+    setAnecdotes(anecdotes.map(a => (a.id === id ? voted : a)))
+  }
 
   return (
     <div>
@@ -204,7 +211,7 @@ const App = () => {
         <Footer />
       </Router>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
