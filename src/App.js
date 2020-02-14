@@ -164,11 +164,13 @@ const App = () => {
     }
   ])
 
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState(null)
 
   const addNew = anecdote => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote ${anecdote.content} created!`)
+    setTimeout(() => setNotification(null), 10000)
   }
 
   const anecdoteById = id => anecdotes.find(a => a.id === id)
@@ -190,6 +192,7 @@ const App = () => {
         <h1>Software anecdotes</h1>
 
         <Menu />
+        <h3>{notification}</h3>
         <Route
           exact
           path='/'
